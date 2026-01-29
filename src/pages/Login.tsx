@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Plane, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -19,7 +19,23 @@ export default function Login() {
 
         // Mock Authentication Logic
         setTimeout(() => {
+            let isAuthenticated = false;
+
+            // Check Hardcoded
             if (email === 'admin@triptales.com' && password === 'admin123') {
+                isAuthenticated = true;
+            }
+
+            // Check Local Storage
+            const existingUsersStr = localStorage.getItem('admin_users');
+            if (existingUsersStr) {
+                const users = JSON.parse(existingUsersStr);
+                if (users.some((u: any) => u.email === email && u.password === password)) {
+                    isAuthenticated = true;
+                }
+            }
+
+            if (isAuthenticated) {
                 localStorage.setItem('isAuthenticated', 'true');
                 navigate('/dashboard');
             } else {
@@ -86,8 +102,14 @@ export default function Login() {
                     </Button>
                 </form>
 
-                <div className="mt-8 text-center">
-                    <p className="text-xs text-slate-400 font-medium">Protected Area • Authorized Personnel Only</p>
+                <div className="mt-8 text-center space-y-4">
+                    <p className="text-sm text-slate-500 font-medium">
+                        Don't have an account?{' '}
+                        <Link to="/signup" className="text-emerald-600 font-bold hover:underline">
+                            Request Access
+                        </Link>
+                    </p>
+                    <p className="text-xs text-slate-400 font-medium pt-2 border-t border-slate-100">Protected Area • Authorized Personnel Only</p>
                 </div>
             </motion.div>
         </div>

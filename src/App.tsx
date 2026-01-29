@@ -8,6 +8,7 @@ import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import Dashboard from './pages/dashboard/Dashboard';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import Contact from './components/Contact';
@@ -33,6 +34,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />
